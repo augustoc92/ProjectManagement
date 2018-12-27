@@ -1,8 +1,9 @@
 import React from 'react'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
+import { BrowserRouter as Router } from 'react-router-dom'
+import Routes from './routes'
 import './index.css'
-import App from './components/App'
 import * as serviceWorker from './serviceWorker';
 import configureStore from './store'
 
@@ -11,7 +12,9 @@ const store = configureStore()
 
 render(
   <Provider store={store}>
-    <App />
+    <Router>
+      <Routes />
+    </Router>
   </Provider>,
   document.getElementById('root')
 )
