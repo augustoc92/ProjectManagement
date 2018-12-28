@@ -1,7 +1,25 @@
 import React from 'react'
+import { Table } from 'antd'
 
-const Resources = () => {
-  return <h1> Resources </h1>
+class Resource extends React.Component {
+  componentDidMount() {
+    const { getResources } = this.props
+    getResources()
+  }
+
+  render() {
+    const { data, cols } = this.props
+    return (
+      <div>
+        <h1> Resource </h1>
+        <Table
+          dataSource={data}
+          columns={cols}
+          pagination={false}
+        />
+      </div>
+      )
+  }
 }
 
-export default Resources
+export default Resource
