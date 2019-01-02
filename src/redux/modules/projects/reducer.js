@@ -1,49 +1,49 @@
 import initialState from './initialState'
 import {
-  GET_PROJECTS_FULFILLED,
-  GET_PROJECTS_PENDING,
-  GET_PROJECTS_REJECTED,
-  UPDATE_PROJECT_FULLFILED,
-  UPDATE_PROJECT_REJETED,
-  ADD_PROJECT_FULLFILED,
-  ADD_PROJECT_REJECTED,
-  REMOVE_PROJECT_FULFILLED,
-  REMOVE_PROJECT_REJECTED,
+  GET_DATA_PENDING,
+  GET_DATA_FULFILLED,
+  GET_DATA_REJECTED,
+  UPDATE_ITEM_FULLFILED,
+  UPDATE_ITEM_REJETED,
+  ADD_ITEM_FULLFILED,
+  ADD_ITEM_REJECTED,
+  REMOVE_ITEM_FULFILLED,
+  REMOVE_ITEM_REJECTED,
 } from './const'
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case GET_PROJECTS_PENDING: {
+    case GET_DATA_PENDING: {
       return {
         ...state,
         isFetching: true,
       }
     }
-    case GET_PROJECTS_FULFILLED: {
+    case GET_DATA_FULFILLED: {
       return {
         ...state,
         isFetching: false,
         data: action.payload.list
       }
     }
-    case GET_PROJECTS_REJECTED: {
+    case GET_DATA_REJECTED: {
       return {
         ...state,
         errorMsg: action.payload.errorMsg
       }
     }
-    case REMOVE_PROJECT_FULFILLED: {
+    case REMOVE_ITEM_FULFILLED: {
       return {
         ...state,
         data: state.data.filter(x => x.id !== action.payload.id)
       }
     }
-    case REMOVE_PROJECT_REJECTED: {
+    case REMOVE_ITEM_REJECTED: {
       return {
         ...state,
         errorMsg: action.payload.errorMsg
       }
     }
-    case ADD_PROJECT_FULLFILED: {
+    case ADD_ITEM_FULLFILED: {
       const { newItem } = action.payload
       const newList = [...state.data]
       newList.push(newItem)
@@ -52,19 +52,19 @@ const reducer = (state = initialState, action) => {
         data: newList
       }
     }
-    case ADD_PROJECT_REJECTED: {
+    case ADD_ITEM_REJECTED: {
       return {
         ...state,
         errorMsg: action.payload.errorMsg
       }
     }
-    case UPDATE_PROJECT_REJETED: {
+    case UPDATE_ITEM_REJETED: {
       return {
         ...state,
         errorMsg: action.payload.errorMsg
       }
     }
-    case UPDATE_PROJECT_FULLFILED: {
+    case UPDATE_ITEM_FULLFILED: {
       const { item } = action.payload
       const index = state.data.findIndex(x => x.id === item.id)
       const newList = [...state.data]

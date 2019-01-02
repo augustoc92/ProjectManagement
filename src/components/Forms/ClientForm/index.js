@@ -30,9 +30,9 @@ const validate = (values) => {
 }
 
 const onSubmit = (values, dispatch, props) => {
-  const { collapsed } = props
-  if (values.id) dispatch(updateItem(values))
-  else dispatch(addItem(values))
+  const { collapsed, route } = props
+  if (values.id) dispatch(updateItem(values, route))
+  else dispatch(addItem(values, route))
   dispatch(reset('contract_form'))
   dispatch(toggleSideBar(collapsed))
 }

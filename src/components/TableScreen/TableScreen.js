@@ -1,20 +1,47 @@
 import React from 'react'
 import { Table, Modal, Icon } from 'antd'
+import get from 'lodash/get'
 import SideBar from '../shared/SideBar'
 import 'antd/dist/antd.css'
 
-class Project extends React.Component {
+class TableScreen extends React.Component {
   constructor(props) {
     super(props)
+    const { match } = this.props
     this.state = {
+      path: get(match, 'params.tablename', ''),
       recordId: 0,
       modalVisible: false,
     }
   }
 
   componentDidMount() {
-    const { getProjects } = this.props
-    getProjects()
+    const {
+      getData,
+      match,
+      history
+    } = this.props
+    const pathname = get(match, 'params.tablename', '')
+    this.setState({ path: pathname })
+    getData(pathname, history)
+  }
+
+  componentWillReceiveProps (nextProps) {
+    const {
+      match: nextMatch,
+    } = nextProps
+    const {
+      getData,
+      history,
+    } = this.props
+    const {
+      path
+    } = this.state
+    if (get(nextMatch, 'params.tablename') !== path) {
+      const pathname = get(nextMatch, 'params.tablename', '')
+      this.setState({ path: pathname })
+      getData(pathname, history)
+    }
   }
 
   showModal = () => {
@@ -30,9 +57,9 @@ class Project extends React.Component {
   }
 
   deleteItem = () => {
-    const { recordId } = this.state
+    const { recordId, path } = this.state
     const { removeItem } = this.props
-    removeItem(recordId)
+    removeItem(recordId, path)
     this.hideModal()
   }
 
@@ -77,10 +104,10 @@ class Project extends React.Component {
 
   render() {
     const { data, cols } = this.props
-    const { modalVisible, recordId } = this.state 
+    const { modalVisible, recordId, path } = this.state 
     return (
       <div>
-        <h1> Projects </h1>
+        <h1> { path } </h1>
         <Table
           dataSource={data}
           columns={cols}
@@ -105,10 +132,10 @@ class Project extends React.Component {
             {recordId}
           </p>
         </Modal>
-        <SideBar formName="project" />
+        <SideBar formName={path} />
       </div>
       )
   }
 }
 
-export default Project
+export default TableScreen

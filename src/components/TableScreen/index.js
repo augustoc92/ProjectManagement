@@ -1,9 +1,9 @@
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { getProjects, removeItem } from '../../redux/modules/projects/actions'
+import { getData, removeItem } from '../../redux/modules/projects/actions'
 import { toggleSideBar, selectRow } from '../../redux/modules/ui/actions'
 import getColumns from '../../redux/selectors/getColumns'
-import project from './project'
+import TableScreen from './TableScreen'
 
 const mapStateToProps = state => { 
   const cols = getColumns(state, 'projects')
@@ -15,7 +15,7 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  getProjects,
+  getData,
   removeItem,
   toggleSideBar,
   selectRow
@@ -23,5 +23,5 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(project)
+export default connect(mapStateToProps, mapDispatchToProps)(TableScreen)
 

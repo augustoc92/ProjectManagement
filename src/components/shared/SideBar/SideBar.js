@@ -28,18 +28,19 @@ export default class DetailsSideBar extends React.Component {
   checkForm = () => {
     const { selectedRow } = this.props
     const { formName } = this.props
+    console.log(formName)
       switch (formName) {
-      case 'project':
+      case 'projects':
         return (
-          <ProjectForm selectedRow={selectedRow} />
+          <ProjectForm selectedRow={selectedRow} route={formName} />
           )
-      case 'client':
+      case 'clients':
         return (
-          <ClientForm selectedRow={selectedRow} />
+          <ClientForm selectedRow={selectedRow} route={formName} />
           )
       case 'resources':
         return (
-          <ResourcesForm selectedRow={selectedRow} />
+          <ResourcesForm selectedRow={selectedRow} route={formName} />
           )
         default:
           return null
