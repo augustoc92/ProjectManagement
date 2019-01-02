@@ -1,7 +1,6 @@
 import React from 'react'
-import { Table, Modal, Icon } from 'antd'
+import { Table, Modal, Icon, Button } from 'antd'
 import SideBar from '../shared/SideBar'
-import 'antd/dist/antd.css'
 
 class Project extends React.Component {
   constructor(props) {
@@ -88,6 +87,7 @@ class Project extends React.Component {
           onRow={this.onRow}
         />
       <Icon type={'plus'} onClick={() => this.addNewItem()} />
+      <Button type="primary">Button</Button>
       <Modal
           title="Delete item"
           visible={modalVisible}
