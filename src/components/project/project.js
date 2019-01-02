@@ -105,7 +105,7 @@ class Project extends React.Component {
             {recordId}
           </p>
         </Modal>
-        <SideBar />
+        <SideBar formName="project" />
       </div>
       )
   }

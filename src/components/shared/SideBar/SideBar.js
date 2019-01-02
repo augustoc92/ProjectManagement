@@ -3,7 +3,9 @@ import {
   Layout
 } from 'antd'
 import 'antd/dist/antd.css';
-import DetailsForm from '../../Forms/ProjectForm'
+import ProjectForm from '../../Forms/ProjectForm'
+import ClientForm from '../../Forms/ClientForm'
+import ResourcesForm from '../../Forms/ResourcesForm'
 
 const { Sider } = Layout
 
@@ -25,9 +27,23 @@ export default class DetailsSideBar extends React.Component {
 
   checkForm = () => {
     const { selectedRow } = this.props
-    return (
-    <DetailsForm selectedRow={selectedRow} />
-    )
+    const { formName } = this.props
+      switch (formName) {
+      case 'project':
+        return (
+          <ProjectForm selectedRow={selectedRow} />
+          )
+      case 'client':
+        return (
+          <ClientForm selectedRow={selectedRow} />
+          )
+      case 'resources':
+        return (
+          <ResourcesForm selectedRow={selectedRow} />
+          )
+        default:
+          return null
+      }
   }
 
   render() {
