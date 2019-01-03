@@ -1,82 +1,109 @@
 import { reject } from 'ramda'
 import {
-  GET_CLIENTS_PENDING,
   GET_CLIENTS_FULFILLED,
-  GET_CLIENTS_REJECTED,
   REMOVE_CLIENT_FULFILLED,
-  REMOVE_CLIENT_REJECTED,
   ADD_CLIENT_FULLFILED,
-  ADD_CLIENT_REJECTED,
   UPDATE_CLIENT_FULLFILED,
   UPDATE_CLIENT_REJETED
 } from './const'
-import { getClientsData, delClient, putClient, postClient } from '../../../helpers/api/client'
+import { putClient } from '../../../helpers/api/client'
+import { clientsRef } from '../../../config/firebase'
 
-
-export const getClients = () => (dispatch) => {
-  dispatch({
-    type: GET_CLIENTS_PENDING
+export const getClients = () => async dispatch => {
+  clientsRef.on("value", snapshot => {
+    dispatch({
+      type: GET_CLIENTS_FULFILLED,
+      payload: snapshot.val()
+    })
   })
-  return getClientsData()
-    .then((json) => {
-      const { data } = json
-      dispatch({
-        type: GET_CLIENTS_FULFILLED,
-        payload: {
-          list: data,
-        }
-      })
-    })
-    .catch((e) => {
-      dispatch({
-        type: GET_CLIENTS_REJECTED,
-        payload: {
-          errorMsg: `Failed trying to get data ${e.error}`
-        }
-      })
-    })
 }
 
+export const addItem = item => async dispatch => {
+  var newPostRef = clientsRef.push();
+  newPostRef.set(item);
+  dispatch({
+    type: ADD_CLIENT_FULLFILED,
+    payload: {
+      newItem: item
+    }
+  })
+};
 
-export const removeItem = (id) => (dispatch) => {
-  delClient(id)
-    .then(() => {
-      dispatch({
-        type: REMOVE_CLIENT_FULFILLED,
-        payload: {
-          id
-        }
-      })
-    })
-    .catch((errMsg) => {
-      dispatch({
-        type: REMOVE_CLIENT_REJECTED,
-        payload: {
-          errorMsg: errMsg
-        }
-      })
-    })
-}
-export const addItem = (item) => (dispatch) => {
-  const formatItem = reject(a => !a && a !== Number, item)
-  postClient(formatItem)
-    .then(() => {
-      dispatch({
-        type: ADD_CLIENT_FULLFILED,
-        payload: {
-          newItem: item
-        }
-      })
-    })
-    .catch((errMsg) => {
-      dispatch({
-        type: ADD_CLIENT_REJECTED,
-        payload: {
-          errorMsg: errMsg
-        }
-      })
-    })
-}
+export const removeItem = id => async dispatch => {
+  clientsRef.child(id).remove();
+  dispatch({
+    type: REMOVE_CLIENT_FULFILLED,
+    payload: {
+      id
+    }
+  })
+};
+
+// export const getClients = () => (dispatch) => {
+//   dispatch({
+//     type: GET_CLIENTS_PENDING
+//   })
+//   return clientsRef()
+//     .then((json) => {
+//       console.log(json)
+//       const { data } = json
+//       dispatch({
+//         type: GET_CLIENTS_FULFILLED,
+//         payload: {
+//           list: data,
+//         }
+//       })
+//     })
+//     .catch((e) => {
+//       dispatch({
+//         type: GET_CLIENTS_REJECTED,
+//         payload: {
+//           errorMsg: `Failed trying to get data ${e.error}`
+//         }
+//       })
+//     })
+// }
+
+
+// export const removeItem = (id) => (dispatch) => {
+//   delClient(id)
+//     .then(() => {
+//       dispatch({
+//         type: REMOVE_CLIENT_FULFILLED,
+//         payload: {
+//           id
+//         }
+//       })
+//     })
+//     .catch((errMsg) => {
+//       dispatch({
+//         type: REMOVE_CLIENT_REJECTED,
+//         payload: {
+//           errorMsg: errMsg
+//         }
+//       })
+//     })
+// }
+// export const addItem = (item) => (dispatch) => {
+//   const formatItem = reject(a => !a && a !== Number, item)
+//   postClient(formatItem)
+//     .then(() => {
+//       dispatch({
+//         type: ADD_CLIENT_FULLFILED,
+//         payload: {
+//           newItem: item
+//         }
+//       })
+//     })
+//     .catch((errMsg) => {
+//       dispatch({
+//         type: ADD_CLIENT_REJECTED,
+//         payload: {
+//           errorMsg: errMsg
+//         }
+//       })
+//     })
+// }
 
 export const updateItem = (item) => (dispatch) => {
   const { id } = item

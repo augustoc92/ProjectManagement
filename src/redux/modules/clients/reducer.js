@@ -10,6 +10,8 @@ import {
   UPDATE_CLIENT_FULLFILED,
   UPDATE_CLIENT_REJETED
 } from './const'
+import toArray from 'lodash/toArray'
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_CLIENTS_PENDING: {
@@ -19,10 +21,11 @@ const reducer = (state = initialState, action) => {
       }
     }
     case GET_CLIENTS_FULFILLED: {
+      const array = toArray(action.payload)
       return {
         ...state,
         isFetching: false,
-        data: action.payload.list
+        data: array
       }
     }
     case GET_CLIENTS_REJECTED: {
@@ -51,7 +54,7 @@ const reducer = (state = initialState, action) => {
         ...state,
         data: newList
       }
-    }
+    } 
     case ADD_CLIENT_REJECTED: {
       return {
         ...state,
