@@ -3,6 +3,7 @@ import { Input, Button } from 'antd'
 import { map, omit } from 'lodash'
 import { Field } from 'redux-form'
 import { makeField } from '../../../helpers/makefield'
+import styles from './ProjectForm.module.css'
 
 const AInput = makeField(Input)
 
@@ -22,15 +23,12 @@ export default class ProjectForm extends React.Component {
     const { 
       selectedRow
     } = this.props
-    var divStyle = {
-      color: 'white',
-    }
     return (
       map(omit(selectedRow, ['id']), (value, key) => (
         <div
           key={key}
         >
-          <div style={divStyle}>
+          <div className={styles.titleContainer}>
             {key.replace(/_/g, ' ')}
           </div>
           {this.renderInput(key)}
@@ -47,6 +45,7 @@ export default class ProjectForm extends React.Component {
         <Button
           onClick={handleSubmit}
           icon="check"
+          className={styles.boton}
         />
       </React.Fragment>
     )

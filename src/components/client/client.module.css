@@ -1,0 +1,33 @@
+.container {
+  display: flex;
+  width: 100%;
+}
+
+.container > div {
+  width: 100%;
+}
+
+.float{
+	position:fixed;
+	width:60px;
+	height:60px;
+	bottom:40px;
+	right:40px;
+	background-color:#003a8c;
+	color:#FFF;
+	border-radius:50px;
+	text-align:center;
+  box-shadow: 2px 2px 3px #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: right .2s ease;
+}
+
+.floatExpanded{
+  right: 430px;
+}
+
+.myFloat{
+  font-size: 1.4rem;
+}

@@ -17,8 +17,6 @@ import {
   putProject
   } from '../../../helpers/api/projects'
 
-
-
 export const getProjects = () => (dispatch) => {
   dispatch({
     type: GET_PROJECTS_PENDING
@@ -62,6 +60,7 @@ export const removeItem = (id) => (dispatch) => {
       })
     })
 }
+
 export const addItem = (item) => (dispatch) => {
   const formatItem = reject(a => !a && a !== Number, item)
   postProject(formatItem)

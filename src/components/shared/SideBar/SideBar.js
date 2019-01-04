@@ -3,6 +3,7 @@ import {
   Layout
 } from 'antd'
 import 'antd/dist/antd.css';
+import styles from './SideBar.module.css'
 import ProjectForm from '../../Forms/ProjectForm'
 import ClientForm from '../../Forms/ClientForm'
 import ResourcesForm from '../../Forms/ResourcesForm'
@@ -56,9 +57,13 @@ export default class DetailsSideBar extends React.Component {
         reverseArrow
         collapsedWidth={0}
         width={390}
+        className={styles.sideBar}
       >
         <div>
-          { this.checkForm() }
+          Details
+          <div>
+            { this.checkForm() }
+          </div>
         </div>
       </Sider>
     )

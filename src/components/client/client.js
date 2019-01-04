@@ -1,6 +1,8 @@
 import React from 'react'
 import SideBar from '../shared/SideBar'
-import { Table, Icon, Modal } from 'antd'
+import CustomTable from '../shared/CustomTable'
+import styles from './client.module.css'
+import { Icon, Modal } from 'antd'
 
 
 class Clients extends React.Component {
@@ -76,18 +78,18 @@ class Clients extends React.Component {
   }
 
   render() {
-    const { data, cols } = this.props
+    const { data, cols, collapsed } = this.props
     const { modalVisible, recordId } = this.state
+    const title = "Clients"
     return (
-      <div>
-        <h1> Clients </h1>
-        <Table
-          dataSource={data}
-          columns={cols}
+      <div className={styles.container}>
+        <CustomTable
+          title={title}
+          data={data}
+          cols={cols}
           pagination={false}
           onRow={this.onRow}
-          />
-        <Icon type={'plus'} onClick={() => this.addNewItem()} />
+        />
         <Modal
             title="Delete item"
             visible={modalVisible}
@@ -105,8 +107,11 @@ class Clients extends React.Component {
               {recordId}
             </p>
           </Modal>
+          <span role="presentation" onClick={() => this.addNewItem()} className={`${styles.float} ${!collapsed ? styles.floatExpanded : ''}`}>
+            <Icon type={'plus'} className={styles.myFloat} />
+          </span>
           <SideBar formName="client" />
-      </div>
+        </div>
       )
   }
 }
