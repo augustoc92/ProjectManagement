@@ -24,7 +24,7 @@ export default class CustomTable extends React.Component {
           columns={cols}
           pagination={false}
           onRow={onRow}
-          className={styles.table}
+          className={styles.custom}
         />
       </div>
       )

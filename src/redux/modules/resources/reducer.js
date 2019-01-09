@@ -1,34 +1,24 @@
 import initialState from './initialState'
 import {
-  GET_RESOURCES_PENDING,
   GET_RESOURCES_FULFILLED,
-  GET_RESOURCES_REJECTED,
   UPDATE_RESOURCE_FULLFILED,
   UPDATE_RESOURCE_REJETED,
   ADD_RESOURCE_FULLFILED,
   ADD_RESOURCE_REJECTED,
   REMOVE_RESOURCE_FULFILLED,
-  REMOVE_RESOURCE_REJECTED,
 } from './const'
+import toArray from 'lodash/toArray'
+
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case GET_RESOURCES_PENDING: {
-      return {
-        ...state,
-        isFetching: true,
-      }
-    }
+
     case GET_RESOURCES_FULFILLED: {
+      const array = toArray(action.payload)
       return {
         ...state,
         isFetching: false,
-        data: action.payload.list
-      }
-    }
-    case GET_RESOURCES_REJECTED: {
-      return {
-        ...state,
-        errorMsg: action.payload.errorMsg
+        data: array
       }
     }
     case REMOVE_RESOURCE_FULFILLED: {
@@ -37,12 +27,7 @@ const reducer = (state = initialState, action) => {
         data: state.data.filter(x => x.id !== action.payload.id)
       }
     }
-    case REMOVE_RESOURCE_REJECTED: {
-      return {
-        ...state,
-        errorMsg: action.payload.errorMsg
-      }
-    }
+
     case ADD_RESOURCE_FULLFILED: {
       const { newItem } = action.payload
       const newList = [...state.data]

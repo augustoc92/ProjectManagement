@@ -1,46 +1,28 @@
 import initialState from './initialState'
 import {
   GET_PROJECTS_FULFILLED,
-  GET_PROJECTS_PENDING,
-  GET_PROJECTS_REJECTED,
   UPDATE_PROJECT_FULLFILED,
   UPDATE_PROJECT_REJETED,
   ADD_PROJECT_FULLFILED,
-  ADD_PROJECT_REJECTED,
   REMOVE_PROJECT_FULFILLED,
-  REMOVE_PROJECT_REJECTED,
 } from './const'
+import toArray from 'lodash/toArray'
+
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case GET_PROJECTS_PENDING: {
-      return {
-        ...state,
-        isFetching: true,
-      }
-    }
     case GET_PROJECTS_FULFILLED: {
+      const array = toArray(action.payload)
       return {
         ...state,
         isFetching: false,
-        data: action.payload.list
-      }
-    }
-    case GET_PROJECTS_REJECTED: {
-      return {
-        ...state,
-        errorMsg: action.payload.errorMsg
+        data: array
       }
     }
     case REMOVE_PROJECT_FULFILLED: {
       return {
         ...state,
         data: state.data.filter(x => x.id !== action.payload.id)
-      }
-    }
-    case REMOVE_PROJECT_REJECTED: {
-      return {
-        ...state,
-        errorMsg: action.payload.errorMsg
       }
     }
     case ADD_PROJECT_FULLFILED: {
@@ -50,12 +32,6 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         data: newList
-      }
-    }
-    case ADD_PROJECT_REJECTED: {
-      return {
-        ...state,
-        errorMsg: action.payload.errorMsg
       }
     }
     case UPDATE_PROJECT_REJETED: {

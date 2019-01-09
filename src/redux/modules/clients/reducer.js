@@ -1,8 +1,6 @@
 import initialState from './initialState'
 import {
-  GET_CLIENTS_PENDING,
   GET_CLIENTS_FULFILLED,
-  GET_CLIENTS_REJECTED,
   REMOVE_CLIENT_FULFILLED,
   REMOVE_CLIENT_REJECTED,
   ADD_CLIENT_FULLFILED,
@@ -14,24 +12,12 @@ import toArray from 'lodash/toArray'
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case GET_CLIENTS_PENDING: {
-      return {
-        ...state,
-        isFetching: true,
-      }
-    }
     case GET_CLIENTS_FULFILLED: {
       const array = toArray(action.payload)
       return {
         ...state,
         isFetching: false,
         data: array
-      }
-    }
-    case GET_CLIENTS_REJECTED: {
-      return {
-        ...state,
-        errorMsg: action.payload.errorMsg
       }
     }
     case REMOVE_CLIENT_FULFILLED: {

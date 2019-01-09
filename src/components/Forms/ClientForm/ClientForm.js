@@ -2,6 +2,7 @@ import React from 'react'
 import { Input, Button } from 'antd'
 import { map, omit } from 'lodash'
 import { Field } from 'redux-form'
+import styles from '../Form.module.css'
 import { makeField } from '../../../helpers/makefield'
 
 const AInput = makeField(Input)
@@ -12,6 +13,7 @@ export default class ClientForm extends React.Component {
       <Field
         id={key}
         name={key}
+        className={styles.value}
         component={AInput}
         type="text"
       />
@@ -22,15 +24,13 @@ export default class ClientForm extends React.Component {
     const { 
       selectedRow
     } = this.props
-    var divStyle = {
-      color: 'white',
-    }
     return (
       map(omit(selectedRow, ['id']), (value, key) => (
         <div
           key={key}
+          className={styles.field}
         >
-          <div style={divStyle}>
+          <div className={styles.prop}>
             {key.replace(/_/g, ' ')}
           </div>
           {this.renderInput(key)}
@@ -42,13 +42,18 @@ export default class ClientForm extends React.Component {
   render() {
     const { handleSubmit } = this.props
     return (
-      <React.Fragment>
-        { this.renderFields() }
-        <Button
-          onClick={handleSubmit}
-          icon="check"
-        />
-      </React.Fragment>
+      <div>
+        <div className={styles.fieldsContainer}>
+          { this.renderFields() }
+          <Button
+            onClick={handleSubmit}
+            icon="check"
+            type="primary"
+          />
+        </div>
+      </div>
     )
   }
 }
+
+

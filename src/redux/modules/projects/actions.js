@@ -1,86 +1,45 @@
 import { reject } from 'ramda'
 import {
-  GET_PROJECTS_PENDING,
   GET_PROJECTS_FULFILLED,
-  GET_PROJECTS_REJECTED,
   UPDATE_PROJECT_FULLFILED,
   UPDATE_PROJECT_REJETED,
   ADD_PROJECT_FULLFILED,
-  ADD_PROJECT_REJECTED,
   REMOVE_PROJECT_FULFILLED,
-  REMOVE_PROJECT_REJECTED,
 } from './const'
 import {
-  getProjectsData,
-  postProject,
-  delProject,
   putProject
   } from '../../../helpers/api/projects'
+import { projectsRef } from '../../../config/firebase'
 
-export const getProjects = () => (dispatch) => {
-  dispatch({
-    type: GET_PROJECTS_PENDING
+export const getProjects = () => async dispatch => {
+  projectsRef.on("value", snapshot => {
+    dispatch({
+      type: GET_PROJECTS_FULFILLED,
+      payload: snapshot.val()
+    })
   })
-  return getProjectsData()
-    .then((json) => {
-      const { data } = json
-      dispatch({
-        type: GET_PROJECTS_FULFILLED,
-        payload: {
-          list: data,
-        }
-      })
-    })
-    .catch((e) => {
-      dispatch({
-        type: GET_PROJECTS_REJECTED,
-        payload: {
-          errorMsg: `Failed trying to get data ${e.error}`
-        }
-      })
-    })
 }
 
-export const removeItem = (id) => (dispatch) => {
-  delProject(id)
-    .then(() => {
-      dispatch({
-        type: REMOVE_PROJECT_FULFILLED,
-        payload: {
-          id
-        }
-      })
-    })
-    .catch((errMsg) => {
-      dispatch({
-        type: REMOVE_PROJECT_REJECTED,
-        payload: {
-          errorMsg: errMsg
-        }
-      })
-    })
-}
+export const addItem = item => async dispatch => {
+  var newPostRef = projectsRef.push();
+  newPostRef.set(item);
+  dispatch({
+    type: ADD_PROJECT_FULLFILED,
+    payload: {
+      newItem: item
+    }
+  })
+};
 
-export const addItem = (item) => (dispatch) => {
-  const formatItem = reject(a => !a && a !== Number, item)
-  postProject(formatItem)
-    .then(() => {
-      dispatch({
-        type: ADD_PROJECT_FULLFILED,
-        payload: {
-          newItem: item
-        }
-      })
-    })
-    .catch((errMsg) => {
-      dispatch({
-        type: ADD_PROJECT_REJECTED,
-        payload: {
-          errorMsg: errMsg
-        }
-      })
-    })
-}
+export const removeItem = id => async dispatch => {
+  projectsRef.child(id).remove();
+  dispatch({
+    type: REMOVE_PROJECT_FULFILLED,
+    payload: {
+      id
+    }
+  })
+};
 
 export const updateItem = (item) => (dispatch) => {
   const { id } = item
