@@ -19,13 +19,15 @@ export const getClients = () => async dispatch => {
 }
 
 export const addItem = item => async dispatch => {
-  var newPostRef = clientsRef.push();
-  newPostRef.set(item);
+  const noIdItem = {
+    contact: item.contact,
+    name: item.name,
+    projects: item.projects
+  }
+  const newPostRef = clientsRef.push();
+  newPostRef.set(noIdItem);
   dispatch({
     type: ADD_CLIENT_FULLFILED,
-    payload: {
-      newItem: item
-    }
   })
 };
 

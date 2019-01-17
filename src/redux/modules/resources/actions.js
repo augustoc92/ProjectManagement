@@ -18,13 +18,15 @@ export const getResources = () => (dispatch) => {
 }
 
 export const addItem = item => async dispatch => {
-  var newPostRef = resourcesRef.push();
-  newPostRef.set(item);
+  const noIdItem = {
+    contract: item.contract,
+    name: item.name,
+    project: item.project
+  }
+  const newPostRef = resourcesRef.push();
+  newPostRef.set(noIdItem);
   dispatch({
     type: GET_RESOURCES_FULFILLED,
-    payload: {
-      newItem: item
-    }
   })
 };
 

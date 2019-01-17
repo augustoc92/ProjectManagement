@@ -7,14 +7,19 @@ import {
   ADD_RESOURCE_REJECTED,
   REMOVE_RESOURCE_FULFILLED,
 } from './const'
-import toArray from 'lodash/toArray'
+import map from 'lodash/map'
 
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
 
     case GET_RESOURCES_FULFILLED: {
-      const array = toArray(action.payload)
+      const array = map(action.payload, (item, key) => {
+        return {
+          ...item,
+          id: key,
+        }
+      })
       return {
         ...state,
         isFetching: false,
@@ -29,12 +34,8 @@ const reducer = (state = initialState, action) => {
     }
 
     case ADD_RESOURCE_FULLFILED: {
-      const { newItem } = action.payload
-      const newList = [...state.data]
-      newList.push(newItem)
       return {
         ...state,
-        data: newList
       }
     }
     case ADD_RESOURCE_REJECTED: {

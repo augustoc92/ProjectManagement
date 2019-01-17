@@ -67,6 +67,10 @@ We will create a side bar to pop from a side to show the item we are adding, to 
 Since our application is growing we are going to create some new folders so we keep ourselves organized. We are also going to create a new module in redux so we can handle the UI from everywhere and without repeating ourselves.
 Before closing this branch up we will create an index so we can keep better control of our "forms" when updating or adding a new item. We are going to handle them trough redux-form. First we will need to install it. And we will validate all the fields are 'required' before sending a submit of the corresponding form.
 
+PD: https://codesandbox.io/s/JZYL70WpK
+
+Here you can check the make field and where it comes from in case you need to upgrade or improve. 
+
 ## Clients and Resources full redux module cycle, new forms added ## 
 
 Here we are just wrapping it all up, creating the modules we lack in redux and completing our application with the client and resources modules. We will use the new structure with the forms folders and use redux-form to validate each one of the different items we are handling. 
@@ -79,3 +83,8 @@ In this module I've connected the app with a real time database I've created in 
 ## Styles with PostCss, css modules, handling data with firebase, styled forms ##
 
 Here we will style our application using react post css, splitting some of the components we have been using in every one of our files into a shared component folder. We are going to create some 'component.module.css' files to handle the styling. And we are also connecting the rest of our app with the firebase database. A navbar from ant design is going to start being used as our navigation component. And we will stop using redux thunk for a moment, until we handle the possible rejections of firebase database.
+
+
+## Changes on the firebase keys and structures ##
+
+In this last commit, I've changed a database structure from firebase using the .set method of firebase. I've also mapped the items that Firebase connects with our app so we do not loose the keys of all the items. And I've added some documentation

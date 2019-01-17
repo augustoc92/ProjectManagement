@@ -21,13 +21,15 @@ export const getProjects = () => async dispatch => {
 }
 
 export const addItem = item => async dispatch => {
-  var newPostRef = projectsRef.push();
-  newPostRef.set(item);
+  // We could also filter the object id property
+  const itemToAdd = {
+    contract: item.contract,
+    name: item.name
+  }
+  const newPostRef = projectsRef.push();
+  newPostRef.set(itemToAdd);
   dispatch({
     type: ADD_PROJECT_FULLFILED,
-    payload: {
-      newItem: item
-    }
   })
 };
 

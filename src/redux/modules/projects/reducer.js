@@ -6,13 +6,18 @@ import {
   ADD_PROJECT_FULLFILED,
   REMOVE_PROJECT_FULFILLED,
 } from './const'
-import toArray from 'lodash/toArray'
+import map from 'lodash/map'
 
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_PROJECTS_FULFILLED: {
-      const array = toArray(action.payload)
+      const array = map(action.payload, (item, key) => {
+        return {
+          ...item,
+          id: key,
+        }
+      })
       return {
         ...state,
         isFetching: false,
@@ -26,12 +31,8 @@ const reducer = (state = initialState, action) => {
       }
     }
     case ADD_PROJECT_FULLFILED: {
-      const { newItem } = action.payload
-      const newList = [...state.data]
-      newList.push(newItem)
       return {
         ...state,
-        data: newList
       }
     }
     case UPDATE_PROJECT_REJETED: {
